@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Dashboard</h1>
+
+<form method="GET">
+
+<input
+type="text"
+name="search"
+placeholder="Search URL..."
+value="{{ search if search else '' }}"
+>
+
+<button type="submit">
+Search
+</button>
+
+</form>
+
+<br>
+
+<table>
+
+<tr>
+
+<th>ID</th>
+
+<th>Original URL</th>
+
+<th>Short URL</th>
+
+<th>Action</th>
+
+</tr>
+
+{% if urls %}
+
+{% for url in urls %}
+
+<tr>
+
+<td>{{ url.id }}</td>
+
+<td>
+
+<a href="{{ url.original_url }}" target="_blank">
+
+{{ url.original_url }}
+
+</a>
+
+</td>
+
+<td>
+
+<a href="/{{ url.short_code }}" target="_blank">
+
+{{ request.host_url }}{{ url.short_code }}
+
+</a>
+
+</td>
+
+<td>
+
+<a href="/delete/{{ url.id }}"
+onclick="return confirm('Delete this URL?')">
+
+<button class="delete-btn">
+
+Delete
+
+</button>
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+{% else %}
+
+<tr>
+
+<td colspan="4">
+
+No URLs Found.
+
+</td>
+
+</tr>
+
+{% endif %}
+
+</table>
+
+<br>
+
+<a href="/">← Home</a>
+
+</div>
+
+</body>
+
+</html>
